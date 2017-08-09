@@ -1,0 +1,19 @@
+---
+- name: install apache & php & mysql
+  hosts: ubuntu-tests
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+      - name : "install apache2"
+        package: name=apache2 state=installed
+      - name : "install vim"
+        package: name=vim state=installed
+      - name : "install dnsutils"
+        package: name=dnsutils state=installed
+      - name : "copy file"
+        copy: src=password.txt dest=/home/admin12 mode=0644
+      - name: "go to shell"
+        shell: mv /home/admin12/password.txt /home/admin12/pass.txt
+      - name: "get service"
+        service: name=syslog state=started

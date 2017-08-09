@@ -1,0 +1,26 @@
+- name: "installing Webserver software"
+  apt: name={{ item }} state=installed
+  become: admin12
+  with_items:
+  - gunicorn
+  - supervisor
+  - python-mysqldb
+  - python-falcon
+
+- name: " making sure supervisor is enabled"
+  service: name=supervisor state=started enabled=yes
+
+- name: "copy file"
+  copy: src=password.txt dest=/home/admin12/pass.txt
+
+- name: "make sure line is there"
+  lineinfile: name=/home/admin12/pass.txt line="flask"
+
+- name: "get files"
+  shell: "ls -la /home/admin12/pass.txt"
+
+- name: "disk usage"
+  shell: "df -h"
+
+- name: "memory usage"
+  shell: "free -m "

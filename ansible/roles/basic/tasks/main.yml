@@ -1,0 +1,16 @@
+- name: "installing VIM"
+  apt: pkg=vim state=installed
+- name: "installing DNS utils"
+  apt: pkg=dnsutils state=installed
+- name: "installing git"
+  apt: pkg=git state=installed
+- name: "Installing additional software"
+  apt: pkg={{item}} state=installed
+  with_items:
+  - dnsutils
+  - git
+  - vim
+  - ntp
+  - at
+  - lvm2
+
