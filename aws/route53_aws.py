@@ -1,91 +1,16 @@
+from access_ec2 import Ec2Helper
 import boto
 import boto.route53
-from boto.s3.key import Key
-from boto.s3.connection import Location
-import ConfigParser
-import dateutil.parser as dparser
-import logging
-import os
-from os.path import expanduser
-import json
-import urlparse
-import socket
-import shutil
-import time
 
-class Route53(object):
-   _instance = None
-
-   def __new__(cls, *args, **kwargs):
-      if not cls._instance:
-         cls._instance = super(Route53, cls).__new__(cls, *args, **kwargs)
-      return cls._instance
-
+class AwsAmi(Ec2Helper):
    def __init__(self):
-      """
-      Set the AWS Config File so It can connect to Route53 for DNS Management
-      """
-      aws_id, aws_access_key = None, None
-      super(Route53, self).__init__()
-      try:
-         self.conn_route53 = boto.route53.connection.Route53Connection(aws_access_key_id=aws_id,
-                                                                       aws_secret_access_key=aws_access_key)
-      except:
-         raise Exception("Unable to connect AWS. Please check AWS id and key")
-
-      self.dns_name = None
-
-   def set_dns_name(self, dns_name):
-      """
-      It will Set DNS Name
-      """
-      self.dns_name = dns_name
-
-   def get_dns_name(self):
-      """
-      It will return Current DNS Name
-      """
-      return self.dns_name
-
-   def get_zones(self):
-      """
-      It will return DNS Zone on AWS Route53
-      """
-      return self.conn_route53.get_zones()
-
-   def get_zones_count(self):
-      """
-      It will Return number of DNS Zone
-      """
-      return len(self.get_zones())
+      super(AwsAmi, self).__init__()
+      self.conn_route53 = boto.route53.connection.Route53Connection(aws_access_key_id=self.access_key,
+                                                                    aws_secret_access_key=self.secret)
 
    def get_changes(self, zone_id):
-      """
-      It is required to get changes object
-      to DELETE or UPSERT any Domain
-      """
       changes = boto.route53.record.ResourceRecordSets(self.conn_route53, zone_id)
       return changes
-
-   def get_all_rsets(self, zone_id):
-      """
-      It will return all Available
-      DNS records in given Zone ID
-      """
-      self.rrs = self.conn_route53.get_all_rrsets(zone_id)
-      return self.rrs
-
-   def is_domain_exists(self, domain_name, zone_id):
-      """
-      TO Verify that DNS Domain in AWS Route53
-      ::param zone_id -> String
-      """
-      found_domain = False
-      for rr in self.rrs:
-         if rr.name.rstrip('.') == domain_name:
-            found_domain = True
-            break
-      return found_domain
 
    def delete_domain(self, state='A', domain_name='', zone_id='', action='DELETE', value='', ttl=600):
       try:
@@ -163,3 +88,4 @@ class Route53(object):
             if retry_status:
                break
          else:
+            time.sleep(5)
