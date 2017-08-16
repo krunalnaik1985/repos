@@ -14,20 +14,6 @@ import shutil
 import time
 
 class Route53(object):
-   """
-   Deals with Route53 of AWS
-   DNS_Management  and Traffic Management
-
-   Examples:
-   rr = Route53()
-   rr.set_dns_name('10-9-9-1.surfcrew.com')
-   rr.get_zones_count()
-   rr.get_zones()
-   rr.is_domain_exists('10-9-9-1.surfcrew.com',AWS_ZONE_ID)
-   rr.delete_domain('A','10-9-9-1.surfcrew.com','AWS_ZONE_ID,'DELETE',600)
-   rr.add_domain('A','10-0-0-2.surfcrew.com',AWS_ZONE_ID,'10.9.9.113','UPSERT',600)
-   """
-
    _instance = None
 
    def __new__(cls, *args, **kwargs):
@@ -102,14 +88,6 @@ class Route53(object):
       return found_domain
 
    def delete_domain(self, state='A', domain_name='', zone_id='', action='DELETE', value='', ttl=600):
-      """
-      TO DELETE DNS Domain in AWS Route53
-      ::param state -> 'A' (IPv4 Record)
-      ::param domain_name -> '10-9-9-1.surfcrew.com' (surfcrew domain)
-      ::param zone_id -> AWS_ZONE_ID
-      ::param action -> DELETE (default)
-      ::param ttl -> 600(default)
-      """
       try:
          changes = self.get_changes(zone_id)
          change = changes.add_change(action=action, name=domain_name, type=state, ttl=ttl)
@@ -124,17 +102,6 @@ class Route53(object):
          return False
 
    def upsert_domain(self, state='A', domain_name='', zone_id='', ip_addr='', action='UPSERT', ttl=600):
-      """
-      TO Add DNS Domain in AWS Route53
-      ::param state -> 'A' (IPv4 Record)
-      ::param domain_name -> '10-9-9-1.surfcrew.com' (surfcrew domain)
-      ::param zone_id -> AWS_ZONE_ID
-      ::param action -> DELETE (default)
-      ::param ttl -> 600(default)
-      """
-      #  FIXME: It still give rate limit sometimes
-      #  if self.is_domain_exists(domain_name, zone_id):
-      #   self.delete_domain(state='A', domain_name=domain_name, zone_id=zone_id, action='DELETE', ttl=600)
       try:
          changes = self.get_changes(zone_id)
          change = changes.add_change(action=action, name=domain_name, type=state, ttl=ttl)
@@ -152,12 +119,6 @@ class Route53(object):
          return False
 
    def get_resource_records(self, domain_name, zone_id):
-      """
-      It will return IPv4 record for given
-      Domain name
-      ::param domain_name -> 10-9-9-1.surfcrew.com
-      ::param zone_id -> AWS ZONE_ID
-      """
       resouce_record = False
       for rr in self.rrs:
          if rr.name.rstrip('.') == domain_name:
