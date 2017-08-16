@@ -3,6 +3,8 @@ import boto
 import boto.ec2
 import random
 import boto.ec2.blockdevicemapping
+import boto.ec2.elb
+from boto.ec2.elb import HealthCheck
 from boto.ec2.blockdevicemapping import (BlockDeviceMapping, BlockDeviceType)
 
 class AwsAmi(Ec2Helper):
@@ -14,6 +16,9 @@ class AwsAmi(Ec2Helper):
       self.as_conn = boto.ec2.autoscale.connect_to_region('us-east-2',
                                                           aws_access_key_id=self.access_key,
                                                           aws_secret_access_key=self.secret)
+      self.elb_conn = boto.ec2.elb.connect_to_region('us-east-2',
+                                                     aws_access_key_id=self.access_key,
+                                                     aws_secret_access_key=self.secret)
 
    def create_security_group(self, group_name):
       sg = self.conn.create_security_group(group_name, group_name)
@@ -35,8 +40,24 @@ class AwsAmi(Ec2Helper):
       if images_inst:
          return images_inst[0].id
 
+   def get_load_balancers(self):
+      return self.elb_conn.get_all_load_balancers()
+
+   def create_health_check(self):
+      hc = HealthCheck(interval=20, healthy_threshold=3,
+                       unhealthy_threshold=5, target='HTTP:8080/health')
+
+   def create_load_balancer(self, elb_name):
+      ports = [(80, 8080, 'http'), (443, 8443, 'tcp')]
+      zones = ['us-east-2b', 'us-east-2a']
+      elb = self.elb_conn.create_load_balancer(elb_name, zones, ports)
+      return elb
+
+   def register_instances_to_elb(self, elb, instance_list):
+      return elb.register_instances(instance_list)
+
    def create_auto_scale_group(self, base_name, security_group, image_id, profile_name,
-                               value='krunallinuxvm'):
+                               value='krunallinuxvm', elb_l=None):
       bdm = BlockDeviceMapping()
       bdm['/dev/sdb'] = BlockDeviceType(ephemeral_name='ephemeral0')
       bdm['/dev/sdc'] = BlockDeviceType(ephemeral_name='ephemeral1')
@@ -63,7 +84,7 @@ class AwsAmi(Ec2Helper):
                                                       default_cooldown=300,
                                                       desired_capacity=1,
                                                       launch_config=lc,
-                                                      load_balancers=None,
+                                                      load_balancers=elb_l,
                                                       max_size=4,
                                                       min_size=1,
                                                       tags=[name_tag, owner_tag, mode_tag],
@@ -77,10 +98,12 @@ def main():
    sg = ami_aws.create_security_group('ssh-%s' % str(number))
    open_ports = [80, 443, (3128, 3131), 9080, (9130, 9131), 9443]
    sg_id = ami_aws.authorize_security_group(sg, open_ports)
+   lb = ami_aws.create_load_balancer('krunal2')
+   ami_aws.get_load_balancers()
    print "created security group id:%s" % sg_id
-   ami_id = ami_aws.get_all_images('krunallinux')
+   ami_id = ami_aws.get_all_images('krunallinux3')
    security_groups = [sg]
-   ami_aws.create_auto_scale_group('krunalami', security_groups, ami_id, 'krunaladmin')
+   ami_aws.create_auto_scale_group('krunalami', security_groups, ami_id, 'krunaladmin', lb)
 
 
 if __name__ == '__main__':
