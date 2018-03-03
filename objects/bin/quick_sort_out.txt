@@ -1,0 +1,242 @@
+SlistQuickSort.java
+------------START---------------------
+a = 
+---------SORT1 Start------------
+# n =      0
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+Zero elements in array
+---------SORT1 End---------------
+a =  15
+---------SORT1 Start------------
+# n =      1
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  0.0
+# n*n    =  1
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =  15   5
+---------SORT1 Start------------
+# n =      2
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  2.0
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  4
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =  15   5  64   8  12  11   4  35
+---------SORT1 Start------------
+# n =      8
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  24.0
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  64
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =   6   5   4   3   2   1
+---------SORT1 Start------------
+# n =      6
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  15.509775004326936
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  36
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =   1   2   3   4   5   6
+---------SORT1 Start------------
+# n =      6
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  15.509775004326936
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  36
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =   1   1   1   1   1   1
+---------SORT1 Start------------
+# n =      6
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  15.509775004326936
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  36
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+a =   3   1   4   1   5   9   2   6   5   3   5   8   9   7   9   3
+---------SORT1 Start------------
+# n =      16
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  64.0
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  256
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      10000
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  132877.1237954945
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  100000000
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      20000
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  285754.247590989
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  400000000
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      30000
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  446180.2464081182
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  900000000
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      40000
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  611508.495181978
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  1600000000
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      10001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  132891.85427504728
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  100020001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      20001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  285769.9780344762
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  400040001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      30001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  446196.561802084
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  900060001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+---------SORT1 Start------------
+# n =      40001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  611525.225607432
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  1600080001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------testing  5001 SORTED ASCENDING numbers----------
+---------SORT1 Start------------
+# n =      5001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  61452.29244942758
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  25010001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------testing  10001 SORTED ASCENDING numbers----------
+---------SORT1 Start------------
+# n =      10001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  132891.85427504728
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  100020001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------testing  15001 SORTED ASCENDING numbers----------
+---------SORT1 Start------------
+# n =      15001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  208105.43862206902
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  225030001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------testing  20001 SORTED ASCENDING numbers----------
+---------SORT1 Start------------
+# n =      20001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  285769.9780344762
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  400040001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------testing  25001 SORTED ASCENDING numbers----------
+---------SORT1 Start------------
+# n =      25001
+# num compare(C)     =  0
+# num swap(S)     =  0
+# C+S     =  0
+T(n)=(C+S)/(n)= 0.0(n)
+# nlogn    =  365257.06422528916
+T(n)=(C+S)/(nlogn)= 0.0(n*logn)
+# n*n    =  625050001
+T(n)=(C+S)/(n^2)= 0.0(n^2)
+---------SORT1 End---------------
+------------DONE!--------
