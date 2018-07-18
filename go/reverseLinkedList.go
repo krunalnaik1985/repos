@@ -1,3 +1,5 @@
+package go
+
 func reverseList(head *ListNode) *ListNode {
     var reverseListNode *ListNode
     reverseListNode = nil

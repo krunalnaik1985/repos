@@ -1,4 +1,5 @@
-import "fmt"
+package go
+
 var Value int = 0
 
 func convertBST(root *TreeNode) *TreeNode {
