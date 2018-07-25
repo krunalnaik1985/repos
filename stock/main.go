@@ -4,23 +4,26 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/naik1985/repos/stock/stocksearch"
+	"github.com/naik1985/repos/stock/structs"
+	"github.com/naik1985/repos/stock/utils"
 )
 
 func main() {
-	stockName := getEnvValue("STOCK")
-	apiKey := getEnvValue("APIKEY")
-	stock := StockPriceDetails{StockName: stockName,
+	stockName := utils.getEnvValue("STOCK")
+	apiKey := utils.getEnvValue("APIKEY")
+	stock := structs.StockPriceDetails{StockName: stockName,
 		APIKey: apiKey}
 
-	foundOpenVal, foundCloseVal := getStockValues(stock)
+	foundOpenVal, foundCloseVal := stocksearch.getStockValues(stock)
 
 	foundValues := fmt.Sprintf("Stock: %s Open is: "+
 		"%s and Close is: %s", stockName,
 		foundOpenVal, foundCloseVal)
 
-	toEmail := getEnvValue("TOEMAIL")
-	fromEmail := getEnvValue("FROMEMAIL")
-	snsDetailsObj := SNSDetails{
+	toEmail := utils.getEnvValue("TOEMAIL")
+	fromEmail := utils.getEnvValue("FROMEMAIL")
+	snsDetailsObj := structs.SNSDetails{
 		AwsRegion: "us-east-1",
 		FromEmail: fromEmail,
 		ToEmail:   toEmail,

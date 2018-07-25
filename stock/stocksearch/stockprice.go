@@ -7,9 +7,11 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/naik1985/repos/stock/structs"
 )
 
-func (stock *StockPriceDetails) getStockData() map[string]interface{} {
+func (stock *structs.StockPriceDetails) getStockData() map[string]interface{} {
 	stockUrl := fmt.Sprintf("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&"+
 		"symbol=%s&interval=1min&outputsize=compact&apikey=%s",
 		stock.StockName,
@@ -41,7 +43,7 @@ func (stock *StockPriceDetails) getStockData() map[string]interface{} {
 	return nil
 }
 
-func (stock *StockPriceDetails) QueryStock(timeT string) interface{} {
+func (stock *structs.StockPriceDetails) QueryStock(timeT string) interface{} {
 	stockData := stock.getStockData()
 	var foundValue interface{}
 	for key, value := range stockData {
