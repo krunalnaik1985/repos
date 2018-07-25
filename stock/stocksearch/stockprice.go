@@ -8,10 +8,23 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/naik1985/repos/stock/structs"
+	"git/repos/stock/utils"
 )
 
-func (stock *structs.StockPriceDetails) getStockData() map[string]interface{} {
+type StockPriceDetails struct {
+	StockName string
+	APIKey    string
+}
+
+type StockValues struct {
+	Token map[string]interface{} `json:"Time Series (Daily)"`
+}
+
+type StockValuesFound struct {
+	Open map[string]interface{} `json:"open"`
+}
+
+func (stock *StockPriceDetails) getStockData() map[string]interface{} {
 	stockUrl := fmt.Sprintf("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&"+
 		"symbol=%s&interval=1min&outputsize=compact&apikey=%s",
 		stock.StockName,
@@ -43,7 +56,7 @@ func (stock *structs.StockPriceDetails) getStockData() map[string]interface{} {
 	return nil
 }
 
-func (stock *structs.StockPriceDetails) QueryStock(timeT string) interface{} {
+func (stock *StockPriceDetails) queryStock(timeT string) interface{} {
 	stockData := stock.getStockData()
 	var foundValue interface{}
 	for key, value := range stockData {
@@ -54,9 +67,9 @@ func (stock *structs.StockPriceDetails) QueryStock(timeT string) interface{} {
 	return foundValue
 }
 
-func getStockValues(stock StockPriceDetails) (string, string) {
-	currTime := getCurrentTime()
-	gotValue := stock.QueryStock(currTime)
+func (stock *StockPriceDetails)GetStockValues() (string, string) {
+	currTime := utils.GetCurrentTime()
+	gotValue := stock.queryStock(currTime)
 	var foundOpenVal string
 	var foundCloseVal string
 	if gotValue != nil {

@@ -13,14 +13,24 @@ import (
 	"github.com/aws/aws-sdk-go/service/ses"
 )
 
-func getCurrentTime() string {
+type SNSDetails struct {
+	AwsRegion string
+	ToEmail   string
+	FromEmail string
+	Subject   string
+	CharSet   string
+	TextBody  string
+}
+
+
+func GetCurrentTime() string {
 	currentTime := time.Now()
 	date := currentTime.Format("2006-01-02")
 	fmt.Println(date)
 	return date
 }
 
-func sendEmail(toEmail string, fromEmail string, emailPassword string, message string) {
+func SendEmail(toEmail string, fromEmail string, emailPassword string, message string) {
 	subject := "Stock Notification for Today\n\n"
 
 	body := "From: " + fromEmail + "\n" +
@@ -39,7 +49,7 @@ func sendEmail(toEmail string, fromEmail string, emailPassword string, message s
 	}
 }
 
-func getEnvValue(envValue string) string {
+func GetEnvValue(envValue string) string {
 	var valueName string
 	value, con := os.LookupEnv(envValue)
 	if con {
@@ -51,7 +61,7 @@ func getEnvValue(envValue string) string {
 	return valueName
 }
 
-func (snsObj *SNSDetails) sendSNSEmail() {
+func (snsObj *SNSDetails) SendSNSEmail() {
 	// Create a new session in the us-west-2 region.
 	// Replace us-west-2 with the AWS Region you're using for Amazon SES.
 	sess, err := session.NewSession(&aws.Config{

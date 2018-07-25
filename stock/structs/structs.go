@@ -21,12 +21,3 @@ type MyResponse struct {
 	Message string `json:"Answer:"`
 	Ok      bool   `json:"ok"`
 }
-
-type SNSDetails struct {
-	AwsRegion string
-	ToEmail   string
-	FromEmail string
-	Subject   string
-	CharSet   string
-	TextBody  string
-}

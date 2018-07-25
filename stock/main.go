@@ -2,28 +2,25 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/naik1985/repos/stock/stocksearch"
-	"github.com/naik1985/repos/stock/structs"
-	"github.com/naik1985/repos/stock/utils"
+	"git/repos/stock/stocksearch"
+	"git/repos/stock/utils"
 )
 
 func main() {
-	stockName := utils.getEnvValue("STOCK")
-	apiKey := utils.getEnvValue("APIKEY")
-	stock := structs.StockPriceDetails{StockName: stockName,
+	stockName := utils.GetEnvValue("STOCK")
+	apiKey := utils.GetEnvValue("APIKEY")
+	stock := stocksearch.StockPriceDetails{StockName: stockName,
 		APIKey: apiKey}
 
-	foundOpenVal, foundCloseVal := stocksearch.getStockValues(stock)
+	foundOpenVal, foundCloseVal := stock.GetStockValues()
 
 	foundValues := fmt.Sprintf("Stock: %s Open is: "+
 		"%s and Close is: %s", stockName,
 		foundOpenVal, foundCloseVal)
 
-	toEmail := utils.getEnvValue("TOEMAIL")
-	fromEmail := utils.getEnvValue("FROMEMAIL")
-	snsDetailsObj := structs.SNSDetails{
+	toEmail := utils.GetEnvValue("TOEMAIL")
+	fromEmail := utils.GetEnvValue("FROMEMAIL")
+	snsDetailsObj := utils.SNSDetails{
 		AwsRegion: "us-east-1",
 		FromEmail: fromEmail,
 		ToEmail:   toEmail,
@@ -36,7 +33,5 @@ func main() {
 	//sendEmail(toEmail, fromEmail, emailPassword, foundValues)
 
 	//SNS
-	snsDetailsObj.sendSNSEmail()
-	lambda.Start(Handler)
-
+	snsDetailsObj.SendSNSEmail()
 }
