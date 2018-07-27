@@ -1,7 +1,7 @@
 # repos
 Monitor Stock Daily
 
-Server less App.
+Server less App. stock/main.go
 
 1) Make sure go/golang is installed
 2) go build . or use scripts/build.sh if gox is installed.
