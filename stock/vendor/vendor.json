@@ -153,6 +153,30 @@
 			"revisionTime": "2018-07-24T22:08:12Z"
 		},
 		{
+			"checksumSHA1": "stsUCJVnZ5yMrmzSExbjbYp5tZ8=",
+			"path": "github.com/aws/aws-sdk-go/private/protocol/eventstream",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "bOQjEfKXaTqe7dZhDDER/wZUzQc=",
+			"path": "github.com/aws/aws-sdk-go/private/protocol/eventstream/eventstreamapi",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "CTsp/h3FbFg9QizH4bH1abLwljg=",
+			"path": "github.com/aws/aws-sdk-go/private/protocol/json/jsonutil",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "R00RL5jJXRYq1iiK1+PGvMfvXyM=",
+			"path": "github.com/aws/aws-sdk-go/private/protocol/jsonrpc",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
 			"checksumSHA1": "SBBVYdLcocjdPzMWgDuR8vcOfDQ=",
 			"path": "github.com/aws/aws-sdk-go/private/protocol/query",
 			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
@@ -171,8 +195,32 @@
 			"revisionTime": "2018-07-24T22:08:12Z"
 		},
 		{
+			"checksumSHA1": "ODo+ko8D6unAxZuN1jGzMcN4QCc=",
+			"path": "github.com/aws/aws-sdk-go/private/protocol/restxml",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
 			"checksumSHA1": "4dWtH/HkBpS7TnTf21+HOrE1zFc=",
 			"path": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "iCy9zIjgDqNGBx0BLKNgY/4YV88=",
+			"path": "github.com/aws/aws-sdk-go/service/dynamodb",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "dweeMPBmsx8OdMN7S8Ad/+dqge8=",
+			"path": "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute",
+			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
+			"revisionTime": "2018-07-24T22:08:12Z"
+		},
+		{
+			"checksumSHA1": "DmKatmbYsvm+MoCP01PCdQ6Y6Tk=",
+			"path": "github.com/aws/aws-sdk-go/service/s3",
 			"revision": "7f6caf09387bc5c62c5e4cfabf96f32528163715",
 			"revisionTime": "2018-07-24T22:08:12Z"
 		},

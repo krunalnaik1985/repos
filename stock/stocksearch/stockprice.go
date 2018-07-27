@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"git/repos/stock/utils"
+	"strconv"
 )
 
 type StockPriceDetails struct {
@@ -17,7 +18,7 @@ type StockPriceDetails struct {
 }
 
 type StockValues struct {
-	Token map[string]interface{} `json:"Time Series (Daily)"`
+	Token map[string]interface{} `json:"Time Series (1min)"`
 }
 
 type StockValuesFound struct {
@@ -25,7 +26,7 @@ type StockValuesFound struct {
 }
 
 func (stock *StockPriceDetails) getStockData() map[string]interface{} {
-	stockUrl := fmt.Sprintf("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&"+
+	stockUrl := fmt.Sprintf("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&"+
 		"symbol=%s&interval=1min&outputsize=compact&apikey=%s",
 		stock.StockName,
 		stock.APIKey)
@@ -56,35 +57,63 @@ func (stock *StockPriceDetails) getStockData() map[string]interface{} {
 	return nil
 }
 
-func (stock *StockPriceDetails) queryStock(timeT string) interface{} {
+func (stock *StockPriceDetails) queryStock(timeT string) []map[string]interface{} {
 	stockData := stock.getStockData()
-	var foundValue interface{}
-	for key, value := range stockData {
-		if timeT == key {
-			foundValue = value
-		}
+	var stockList []map[string]interface{}
+	for _, value := range stockData {
+		stockList = append(stockList, value.(map[string]interface{}))
 	}
-	return foundValue
+	return stockList
 }
 
-func (stock *StockPriceDetails)GetStockValues() (string, string) {
+func (stock *StockPriceDetails) getSumStockValues() (float64, float64, int, []float64) {
 	currTime := utils.GetCurrentTime()
-	gotValue := stock.queryStock(currTime)
-	var foundOpenVal string
-	var foundCloseVal string
-	if gotValue != nil {
-		stringMap := gotValue.(map[string]interface{})
-		for key, value := range stringMap {
-			foundOpen := strings.Contains(key, "open")
-			foundClose := strings.Contains(key, "close")
-			if foundOpen {
-				foundOpenVal = fmt.Sprintf("%v", value)
-			}
-			if foundClose {
-				foundCloseVal = fmt.Sprintf("%v", value)
-			}
+	stringMap := stock.queryStock(currTime)
+	var foundHighVal string
+	var foundLowVal string
+	count := 0
+	var floatHighValSum float64
+	var floatLowValSum float64
+	var maxHigh []float64
+	if stringMap != nil {
+		for _, mapValue := range stringMap {
+			for key, value := range mapValue {
+				foundHigh := strings.Contains(key, "high")
+				foundlow := strings.Contains(key, "low")
+				if foundHigh {
+					foundHighVal = fmt.Sprintf("%v", value)
+				}
+				if foundlow {
+					foundLowVal = fmt.Sprintf("%v", value)
+				}
+				count = count + 1
+				foundFloatHighVal, _ := strconv.ParseFloat(strings.TrimSpace(foundHighVal), 64)
+				maxHigh = append(maxHigh, foundFloatHighVal)
+				floatHighValSum = floatHighValSum + foundFloatHighVal
+				foundFloatLowVal, _ := strconv.ParseFloat(strings.TrimSpace(foundLowVal), 64)
+				floatLowValSum = floatLowValSum + foundFloatLowVal
 
+			}
 		}
 	}
-	return foundOpenVal, foundCloseVal
+	return floatHighValSum, floatLowValSum, count, maxHigh
+}
+
+func (stock *StockPriceDetails) GetStockValues() (float64, float64, float64) {
+	foundHighVal, foundLowVal, foundCount, listHighVal := stock.getSumStockValues()
+	avgHighVal := foundHighVal / float64(foundCount)
+	avgLowVal := foundLowVal / float64(foundCount)
+	var maxHighValue float64
+	var firstValue bool
+	for _, v1 := range listHighVal {
+		if !firstValue {
+			maxHighValue = v1
+			firstValue = true
+		} else {
+			if v1 > maxHighValue {
+				maxHighValue = v1
+			}
+		}
+	}
+	return avgHighVal, avgLowVal, maxHighValue
 }
