@@ -49,7 +49,7 @@ func main() {
 
 	var maxHighPricedb float64
 	var maxHighPriceDatedb string
-	
+
 	if checkHighPrice {
 		maxHighPricedb = maxHighPrice
 		maxHighPriceDatedb = time.Now().String()
