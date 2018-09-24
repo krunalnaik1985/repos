@@ -52,7 +52,7 @@ func main() {
 
 	if checkHighPrice {
 		maxHighPricedb = maxHighPrice
-		maxHighPriceDatedb = time.Now().String()
+		maxHighPriceDatedb = time.Now().Format("2006-01-02")
 	} else {
 		maxHighPricedb = highPrice
 		maxHighPriceDatedb = highPriceDate
@@ -91,8 +91,8 @@ func main() {
 		calcGain)
 
 	// calculate maximum price since buy
-	textMaxHighPrice := fmt.Sprintf("StockName : %s , Maxium High Price since Bough is : %f ", stockName,
-		maxHighPricedb)
+	textMaxHighPrice := fmt.Sprintf("StockName : %s , Maxium High Price since Bought is : %f  and Date is :%s", stockName,
+		maxHighPricedb, maxHighPriceDatedb)
 
 	// It will update table
 	utils.UpdateTable("us-east-1", dynamodbTableName,
@@ -103,11 +103,13 @@ func main() {
 		textGainOut, textMaxHighPrice)
 	toEmail := utils.GetEnvValue("TOEMAIL")
 	fromEmail := utils.GetEnvValue("FROMEMAIL")
+	todayDate := time.Now().Format("2006-01-02")
+	notificationSubject := fmt.Sprintf("Stock Notification for Today: %s %s \n\n", stockName  ,todayDate)
 	snsDetailsObj := utils.SNSDetails{
 		AwsRegion: "us-east-1",
 		FromEmail: fromEmail,
 		ToEmail:   toEmail,
-		Subject:   "Stock Notification for Today: " + stockName + "\n\n",
+		Subject:   notificationSubject,
 		CharSet:   "UTF-8",
 		TextBody:  finalTextBody,
 	}
