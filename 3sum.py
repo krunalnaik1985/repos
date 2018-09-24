@@ -23,4 +23,22 @@ def threeSum(nums):
                    next_set.append(a1)
                 found = False
    return next_set
-print threeSum([-1, 0, 1, 2, -1, -4])
+
+def threeSum2(nums):
+    if len(nums) < 3:
+        return []
+    nums.sort()
+    import pdb;pdb.set_trace()
+    res = set()
+    for i, v in enumerate(nums[:-2]):
+        if i >= 1 and v == nums[i-1]:
+            continue
+        d1 = {}
+        for x in nums[i+1:]:
+            if x not in d1:
+                d1[-v-x] = 1
+            else:
+                res.add((v, -v-x, x))
+    return map(list, res)
+
+print threeSum2([-1, 0, 1, 2, -1, -4])

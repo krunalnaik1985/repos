@@ -6,5 +6,5 @@ def rec(number):
      return 1
   return rec(number/2)
 
-for i in range(1,10000):
+for i in range(1,10):
    print "is square",rec(i),"number",i
