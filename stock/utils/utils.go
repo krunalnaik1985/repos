@@ -32,6 +32,7 @@ type QeuryStock struct {
 	OpenVal   string `json:"OpenVal" dynamodbav:"OpenVal"`
 	CloseVal  string `json:"CloseVal" dynamodbav:"CloseVal"`
 	HighPrice string `json:"HighPrice" dynamodbav:"HighPrice"`
+	HighPriceDate string `json:"HighPriceDate" dynamodbav:"HighPriceDate"`
 }
 
 func GetCurrentTime() string {
@@ -229,7 +230,7 @@ func CreateDynamodbTable(awsRegion string, tableName string) {
 }
 
 func UpdateTable(awsRegion string, tableName string, openVal string, closeVal string,
-	highPrice string, stockName string) {
+	highPrice string, stockName string, HighPriceDate string) {
 	newsess, err := session.NewSession(&aws.Config{
 		Region: aws.String(awsRegion)},
 	)
@@ -246,11 +247,12 @@ func UpdateTable(awsRegion string, tableName string, openVal string, closeVal st
 				S: aws.String(stockName),
 			},
 		},
-		UpdateExpression: aws.String("set OpenVal = :c, CloseVal = :p, HighPrice= :r"),
+		UpdateExpression: aws.String("set OpenVal = :c, CloseVal = :p, HighPrice= :r, HighPriceDate= :q"),
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
 			":c": {S: aws.String(openVal)},
 			":p": {S: aws.String(closeVal)},
 			":r": {S: aws.String(highPrice)},
+			":q": {S: aws.String(HighPriceDate)},
 		},
 		ReturnValues: aws.String(dynamodb.ReturnValueAllNew),
 	}
@@ -261,7 +263,7 @@ func UpdateTable(awsRegion string, tableName string, openVal string, closeVal st
 	log.Println(resp)
 }
 
-func QueryTable(awsRegion string, tableName string, stockName string) (float64, float64, float64, string) {
+func QueryTable(awsRegion string, tableName string, stockName string) (float64, float64, float64, string, string) {
 	newsess, err := session.NewSession(&aws.Config{
 		Region: aws.String(awsRegion)},
 	)
@@ -299,15 +301,17 @@ func QueryTable(awsRegion string, tableName string, stockName string) (float64, 
 	var foundClose float64
 	var foundHighPrice float64
 	var foundStock string
+	var foundHighPriceDate string
 
 	for _, m := range stockQuery {
 		foundOpen, _ = strconv.ParseFloat(strings.TrimSpace(m.OpenVal), 64)
 		foundClose, _ = strconv.ParseFloat(strings.TrimSpace(m.CloseVal), 64)
 		foundHighPrice, _ = strconv.ParseFloat(strings.TrimSpace(m.HighPrice), 64)
 		foundStock = m.StockName
+		foundHighPriceDate = m.HighPriceDate
 	}
 
-	return foundOpen, foundClose, foundHighPrice, foundStock
+	return foundOpen, foundClose, foundHighPrice, foundStock, foundHighPriceDate
 }
 
 func CheckIncreaseValues(prevValue float64, currValue float64) bool {

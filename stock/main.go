@@ -6,6 +6,7 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
 
 	"git/repos/stock/stocksearch"
 	"git/repos/stock/utils"
@@ -38,7 +39,8 @@ func main() {
 	//	foundOpenVal, foundCloseVal)
 
 	utils.CreateDynamodbTable("us-east-1", dynamodbTableName)
-	queryOpen, queryClose, highPrice, _ := utils.QueryTable("us-east-1", dynamodbTableName, stockName)
+	queryOpen, queryClose, highPrice, _, highPriceDate := utils.QueryTable("us-east-1",
+		dynamodbTableName, stockName)
 
 	checkOpenIncrease := utils.CheckIncreaseValues(queryOpen, foundOpenVal)
 	checkCloseIncrease := utils.CheckIncreaseValues(queryClose, foundCloseVal)
@@ -46,24 +48,31 @@ func main() {
 	checkHighPrice := utils.CheckIncreaseValues(highPrice, maxHighPrice)
 
 	var maxHighPricedb float64
-
+	var maxHighPriceDatedb string
+	
 	if checkHighPrice {
 		maxHighPricedb = maxHighPrice
+		maxHighPriceDatedb = time.Now().String()
 	} else {
 		maxHighPricedb = highPrice
+		maxHighPriceDatedb = highPriceDate
 	}
 	var textOpenOut string
 	var textCloseOut string
 	if checkOpenIncrease {
-		textOpenOut = fmt.Sprintf("StockName : %s Open Value Increased from : %f to : %f ", stockName, queryOpen, foundOpenVal)
+		textOpenOut = fmt.Sprintf("StockName : %s Open Value Increased from : %f to : %f ", stockName,
+			queryOpen, foundOpenVal)
 	} else {
-		textOpenOut = fmt.Sprintf("StockName : %s  Open Value Decreased from : %f to : %f ", stockName, queryOpen, foundOpenVal)
+		textOpenOut = fmt.Sprintf("StockName : %s  Open Value Decreased from : %f to : %f ", stockName,
+			queryOpen, foundOpenVal)
 	}
 
 	if checkCloseIncrease {
-		textCloseOut = fmt.Sprintf("StockName : %s Close Value Increased from : %f to : %f ", stockName, queryClose, foundCloseVal)
+		textCloseOut = fmt.Sprintf("StockName : %s Close Value Increased from : %f to : %f ", stockName,
+			queryClose, foundCloseVal)
 	} else {
-		textCloseOut = fmt.Sprintf("StockName : %s Close Value Decreased from : %f to : %f ", stockName, queryClose, foundCloseVal)
+		textCloseOut = fmt.Sprintf("StockName : %s Close Value Decreased from : %f to : %f ", stockName,
+			queryClose, foundCloseVal)
 	}
 
 	log.Println(textOpenOut + "/n")
@@ -78,15 +87,20 @@ func main() {
 	calcGain := utils.CalculateProfitOrLoss(floatBoughtPrice, maxHighPrice, floatBoughtSize)
 
 	// take Gain value it can be loss or profit for today
-	textGainOut := fmt.Sprintf("StockName : %s ,Gain Value For Today is : %f ", stockName, calcGain)
+	textGainOut := fmt.Sprintf("StockName : %s ,Gain Value For Today is : %f ", stockName,
+		calcGain)
 
 	// calculate maximum price since buy
-	textMaxHighPrice := fmt.Sprintf("StockName : %s , Maxium High Price since Bough is : %f ", stockName, maxHighPricedb)
+	textMaxHighPrice := fmt.Sprintf("StockName : %s , Maxium High Price since Bough is : %f ", stockName,
+		maxHighPricedb)
 
 	// It will update table
-	utils.UpdateTable("us-east-1", dynamodbTableName, strOpenVal, strCloseVal, strHighPriceVal, stockName)
+	utils.UpdateTable("us-east-1", dynamodbTableName,
+		strOpenVal, strCloseVal, strHighPriceVal, stockName,
+		maxHighPriceDatedb)
 
-	finalTextBody := fmt.Sprintf("%s /n %s \n %s \n  %s ", textOpenOut, textCloseOut, textGainOut, textMaxHighPrice)
+	finalTextBody := fmt.Sprintf("%s /n %s \n %s \n  %s ", textOpenOut, textCloseOut,
+		textGainOut, textMaxHighPrice)
 	toEmail := utils.GetEnvValue("TOEMAIL")
 	fromEmail := utils.GetEnvValue("FROMEMAIL")
 	snsDetailsObj := utils.SNSDetails{
