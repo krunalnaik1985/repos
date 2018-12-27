@@ -1,4 +1,6 @@
-package go
+package main
+
+import "fmt"
 
 var Value int = 0
 

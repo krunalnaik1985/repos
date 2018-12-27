@@ -28,7 +28,6 @@ def threeSum2(nums):
     if len(nums) < 3:
         return []
     nums.sort()
-    import pdb;pdb.set_trace()
     res = set()
     for i, v in enumerate(nums[:-2]):
         if i >= 1 and v == nums[i-1]:
